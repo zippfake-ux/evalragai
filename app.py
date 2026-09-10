@@ -15,6 +15,20 @@ def extract_text_from_pdf(uploaded_file):
 
     return text
 
+def chunk_text(text, chunk_size=800, overlap=200):
+    chunks = []
+    start = 0
+
+    while start < len(text):
+        end = start + chunk_size
+        chunk = text[start:end]
+        chunks.append(chunk)
+
+        start = end - overlap
+
+    return chunks
+
+
 st.set_page_config(
     page_title="EvalRAG AI",
     page_icon="🤖",
@@ -41,6 +55,12 @@ if uploaded_file is not None:
     st.write("File size", uploaded_file.size, "bytes")
 
     extracted_text = extract_text_from_pdf(uploaded_file)
+    chunks = chunk_text(extracted_text)
 
-    st.subheader = "Extracted Text Preview"
+    st.subheader("Extracted Text Preview")
     st.text(extracted_text[:2000])
+    st.write("Numbers of chunks", len(chunks))
+    st.subheader("Chunk 1")
+    st.text(chunks[0])
+    st.subheader("Chunk 2")
+    st.text(chunks[1])
