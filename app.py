@@ -1,6 +1,8 @@
 import streamlit as st
 import pymupdf
 
+from embeddings import embed_chunks
+
 def extract_text_from_pdf(uploaded_file):
     pdfbytes = uploaded_file.read()
     document = pymupdf.open(
@@ -56,6 +58,11 @@ if uploaded_file is not None:
 
     extracted_text = extract_text_from_pdf(uploaded_file)
     chunks = chunk_text(extracted_text)
+    embeddings = embed_chunks(chunks)
+
+    st.write("Number of chunks:", len(chunks))
+    st.write("Number of embeddings:", len(embeddings))
+    st.write("Embedding dimensions:", len(embeddings[0]))
 
     st.subheader("Extracted Text Preview")
     st.text(extracted_text[:2000])

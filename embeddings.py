@@ -13,12 +13,15 @@ client = OpenAI(
     api_key=token_provider
 )
 
-response = client.embeddings.create(
-    model="text-embedding-3-small",
-    input="Full-time employees receive 15 paid vacation days."
-)
+def embed_chunks(chunks):
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=chunks
+    )
 
-embedding = response.data[0].embedding 
+    embeddings = []
 
-print("Embedding dimensions: ", len(embedding))
-print("First 10 values", embedding[:10])
+    for item in response.data:
+        embeddings.append(item.embedding)
+
+    return embeddings
