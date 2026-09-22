@@ -2,6 +2,7 @@ import streamlit as st
 import pymupdf
 
 from embeddings import embed_chunks
+from search import upload_chunks
 
 def extract_text_from_pdf(uploaded_file):
     pdfbytes = uploaded_file.read()
@@ -59,6 +60,9 @@ if uploaded_file is not None:
     extracted_text = extract_text_from_pdf(uploaded_file)
     chunks = chunk_text(extracted_text)
     embeddings = embed_chunks(chunks)
+    upload_results = upload_chunks(chunks, embeddings)
+
+    st.success("Document indexed successfully in Azure AI Search.")
 
     st.write("Number of chunks:", len(chunks))
     st.write("Number of embeddings:", len(embeddings))

@@ -1,2 +1,3 @@
 streamlit
 pymupdf
+azure-search-documents

@@ -25,3 +25,11 @@ def embed_chunks(chunks):
         embeddings.append(item.embedding)
 
     return embeddings
+
+def embed_query(query):
+    response = client.embeddings.create(
+        model="text-embedding-3-small",
+        input=query
+    )
+
+    return response.data[0].embedding
